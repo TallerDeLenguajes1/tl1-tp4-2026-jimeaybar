@@ -3,18 +3,18 @@
 #include <string.h>
 
 typedef struct Tarea{
-int tareaID;//Numérico autoincremental comenzando en 1000
-char *descripcion; //
-int duracion; // entre 10 – 100
+    int tareaID;//Numérico autoincremental comenzando en 1000
+    char *descripcion; //
+    int duracion; // entre 10 – 100
 } Tarea;
 typedef struct Nodo{
-Tarea T;
-Nodo *siguiente;
+    Tarea T;
+    struct Nodo *siguiente;
 } Nodo;
 
 Nodo *CrearListaVacia();
-Nodo * CrearNodo(Tarea T);
-void InsertarNodo(Nodo ** Start , Nodo *Nodo);
+Nodo * CrearTarea(int id);
+void InsertarTarea(Nodo ** Start , Nodo *nuevoNodo);
 void InsertarNodoAlFinal(Nodo ** Start,Nodo *Nodo);
 Nodo * BuscarNodo(Nodo ** Start,Tarea T);
 Nodo * QuitarNodo(Nodo ** Start,Tarea T);
@@ -93,18 +93,28 @@ Nodo * CrearListaVacia()
     return NULL;
 }
 
-Nodo * CrearNodo(Tarea T)
+Nodo * CrearTarea(int id)
 {
-  Nodo * nodo = (Nodo *) malloc(sizeof(Nodo));
-  nodo->T = T;
-  nodo->siguiente = NULL;
-  return nodo;
+  Nodo * nuevo = (Nodo *) malloc(sizeof(Nodo));
+  char buffer[100];
+  nuevo->T.tareaID = id;
+  printf("\nIngrese descripcion de la tarea: ");
+  fflush(stdin);
+  gets(buffer);
+  nuevo->T.descripcion = (char *)malloc (strlen(buffer)+1*sizeof(char));
+  strcpy(nuevo->T.descripcion, buffer);
+
+  do{
+    printf("\nIngrese duracion (10-100): ");
+  }while(nuevo->T.duracion <10 || nuevo->T.duracion>100);
+  nuevo->siguiente = NULL; 
+  return nuevo;
 }
 
-void InsertarNodo(Nodo ** Start, Nodo *Nodo)
+void InsertarTarea(Nodo ** Start, Nodo *nuevoNodo)
 {
-    Nodo->siguiente = *Start;
-    *Start  = Nodo ;
+    nuevoNodo->siguiente = *Start;
+    *Start  = nuevoNodo ;
 }
 
 
